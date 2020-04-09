@@ -30,8 +30,7 @@ class Database:
 def main():
     db = Database()
     result1 = db.query_1()
-    return render_template("index.html", result=result1,
-                           content_type='application/json')
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
