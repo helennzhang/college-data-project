@@ -20,7 +20,7 @@ class Database:
     def query_profile(self, name):
         self.cursor.execute(
             "SELECT CITY, STABBR, ZIP, UGDS, INSTURL, ADM_RATE_ALL,\
-                ACTCM25, ACTCM75, SAT_AVG_ALL FROM education_mega WHERE INSTNM = %s", (name,))
+                ACTCM25, ACTCM75, SAT_AVG_ALL FROM education_mega WHERE INSTNM = %s", (name.upper(),))
         result = self.cursor.fetchone()
         json = {
             'school_name': name,
@@ -50,12 +50,36 @@ def main():
     return render_template("index.html")
 
 
+@app.route("/location/data", methods=["POST"])
+def get_data():
+    city = request.form['city']
+    state = request.form["state"]
+    zip = request.form['zip']
+    query = "SELECT CITY, STABBR, ZIP, UGDS, INSTURL, ADM_RATE_ALL,\
+                ACTCM25, ACTCM75, SAT_AVG_ALL FROM education_mega WHERE "
+    params = '('
+    if city != '':
+        query = query + "CITY = '%s'"
+        params += city + ","
+    if state != '':
+        query = query + " AND STABBR = '%s'"
+        params += " " + state + ","
+    if zip != '':
+        query = query + " AND ZIP = '%s'"
+        params += ' ' + zip + ','
+    params += ')'
+    db = Database()
+    db.cursor.execute(query, params)
+    result = db.cursor.fetchall()
+    # send result to location.html
+
+
 @app.route('/location')
 def location():
     return render_template('location.html')
 
 
-@app.route('/profile', methods=['POST'])
+@app.route('/profile', methods=['GET'])
 def profile():
     name = request.form['school_name']
     db = Database()
