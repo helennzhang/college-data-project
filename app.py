@@ -21,20 +21,20 @@ class Database:
         self.cursor.execute(
             "SELECT CITY, STABBR, ZIP, UGDS, INSTURL, ADM_RATE_ALL,\
                 ACTCM25, ACTCM75, SAT_AVG_ALL FROM education_mega WHERE INSTNM = %s", (name.upper(),))
-        result = self.cursor.fetchone()
+        row = self.cursor.fetchone()
         json = {
             'school_name': name,
-            'city': result[0],
-            'state': result[1],
-            'zip': result[2],
-            'ugds': result[3],
-            'url': result[4],
-            'admit_rate': result[5],
-            'act_25': result[6],
-            'act_75': result[7],
-            'sat_avg': result[8]
+            'city': row[0],
+            'state': row[1],
+            'zip': row[2],
+            'ugds': row[3],
+            'url': row[4],
+            'admit_rate': row[5],
+            'act_25': row[6],
+            'act_75': row[7],
+            'sat_avg': row[8]
         }
-        if result is not None:
+        if row is not None:
             return json
         else:
             return None
@@ -52,26 +52,46 @@ def main():
 
 @app.route("/location/data", methods=["POST"])
 def get_data():
-    city = request.form['city']
-    state = request.form["state"]
-    zip = request.form['zip']
-    query = "SELECT CITY, STABBR, ZIP, UGDS, INSTURL, ADM_RATE_ALL,\
-                ACTCM25, ACTCM75, SAT_AVG_ALL FROM education_mega WHERE "
-    params = '('
+    data = request.json
+    city = data['city']
+    state = data['state']
+    zip_code = data['zip']
+    if (city == '' and state == '' and zip_code == ''):
+        return "No input", 404
+
+    query = ("SELECT INSTNM, CITY, STABBR, ZIP, UGDS, INSTURL, ADM_RATE_ALL,"
+             "ACTCM25, ACTCM75, SAT_AVG_ALL FROM education_mega WHERE ")
     if city != '':
-        query = query + "CITY = '%s'"
-        params += city + ","
+        query += "CITY = '" + city + "'"
     if state != '':
-        query = query + " AND STABBR = '%s'"
-        params += " " + state + ","
-    if zip != '':
-        query = query + " AND ZIP = '%s'"
-        params += ' ' + zip + ','
-    params += ')'
+        if city != '':
+            query += " AND STABBR = '" + state + "'"
+        else:
+            query += "STABBR = '" + state + "'"
+    if zip_code != '':
+        if city != '' or state != '':
+            query += " AND ZIP = " + zip_code
+        else:
+            query += "ZIP = " + zip_code
+
     db = Database()
-    db.cursor.execute(query, params)
-    result = db.cursor.fetchall()
-    # send result to location.html
+    db.cursor.execute(query)
+    records = db.cursor.fetchall()
+    result = []
+    for row in records:
+        result.append({
+            'school_name': row[0],
+            'city': row[1],
+            'state': row[2],
+            'zip_code': row[3],
+            'ugds': row[4],
+            'url': row[5],
+            'admit_rate': str(row[6]),
+            'act_25': row[7],
+            'act_75': row[8],
+            'sat_avg': row[9]
+        })
+    return jsonify(result)
 
 
 @app.route('/location')
@@ -79,7 +99,7 @@ def location():
     return render_template('location.html')
 
 
-@app.route('/profile', methods=['GET'])
+@app.route('/profile', methods=['POST'])
 def profile():
     name = request.form['school_name']
     db = Database()
