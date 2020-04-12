@@ -43,10 +43,11 @@
           <h1 class="mb-5">Enter school name here, or choose other filter</h1>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-          <form>
+          <form method="POST" action='/profile'>
             <div class="form-row">
               <div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input type="text" class="form-control form-control-lg" placeholder="Enter school name">
+                <input name='school_name' type="text" class="form-control form-control-lg"
+                  placeholder="Enter school name">
               </div>
               <div class="col-12 col-md-3">
                 <button type="submit" class="btn btn-block btn-lg btn-primary">Submit</button>
@@ -64,31 +65,37 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-4">
-          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-            <div class="features-icons-icon d-flex">
-              <i class="icon-screen-desktop m-auto text-primary"></i>
+          <a href='/location'>
+            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="features-icons-icon d-flex">
+                <i class="icon-screen-desktop m-auto text-primary"></i>
+              </div>
+              <h3>Filter by Location</h3>
+              <p class="lead mb-0">Click here to filter by location (City, State, Zip)</p>
             </div>
-            <h3>Filter by Location</h3>
-            <p class="lead mb-0">Click here to filter by location (City, State, Zip)</p>
-          </div>
+          </a>
         </div>
         <div class="col-lg-4">
-          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-            <div class="features-icons-icon d-flex">
-              <i class="icon-layers m-auto text-primary"></i>
+          <a href='/score'>
+            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="features-icons-icon d-flex">
+                <i class="icon-layers m-auto text-primary"></i>
+              </div>
+              <h3>Filter by Stats (ACT, SAT, GPA)</h3>
+              <p class="lead mb-0">Click here to filter by stats</p>
             </div>
-            <h3>Filter by Stats (ACT, SAT, GPA)</h3>
-            <p class="lead mb-0">Click here to filter by stats</p>
-          </div>
+          </a>
         </div>
         <div class="col-lg-4">
-          <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-            <div class="features-icons-icon d-flex">
-              <i class="icon-check m-auto text-primary"></i>
+          <a href='/cost'>
+            <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+              <div class="features-icons-icon d-flex">
+                <i class="icon-check m-auto text-primary"></i>
+              </div>
+              <h3>Filter By Cost</h3>
+              <p class="lead mb-0">Click here to filter by cost</p>
             </div>
-            <h3>Filter By Cost</h3>
-            <p class="lead mb-0">Click here to filter by cost</p>
-          </div>
+          </a>
         </div>
       </div>
     </div>
