@@ -33,7 +33,7 @@ class Database:
             'admit_rate': str(row[6]*100)[:5] + '%',
             'act_25': row[7],
             'act_75': row[8],
-            'sat_avg': row[9]
+            'sat_avg': row[10]
         }
         return json
 
@@ -52,9 +52,23 @@ class Database:
                 'admit_rate': str(row[6] * 100)[:5] + '%',
                 'act_25': row[7],
                 'act_75': row[8],
-                'sat_avg': row[9]
+                'sat_avg': row[10]
             })
         return result[:100]
+
+    def return_cost_results(self, query):
+        self.cursor.execute(query)
+        records = self.cursor.fetchall()
+        result = []
+        for row in records:
+            result.append({
+                'school_name': row[0],
+                'men': str(row[1]*100) + '%',
+                'women': str(row[2]*100) + '%',
+                'tuition_in': '$' + str(row[3]),
+                'tuition_out': '$' + str(row[4])
+            })
+        return result
 
 
 @app.route("/")
@@ -88,6 +102,21 @@ def get_score_data():
                  sat_low + ", " + sat_high + ")")
     db = Database()
     results = db.return_results(query)
+    return jsonify(results)
+
+
+@app.route('/cost/data/', methods=["POST"])
+def get_cost_data():
+    data = request.json
+    cost_min = data['cost_min']
+    cost_max = data['cost_max']
+    limit = data['limit']
+
+    query = 'CALL filter_cost(' + cost_min + ', ' + \
+        cost_max + ', ' + limit + ')'
+
+    db = Database()
+    results = db.return_cost_results(query)
     return jsonify(results)
 
 

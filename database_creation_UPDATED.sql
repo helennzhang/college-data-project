@@ -218,6 +218,8 @@ FROM basic_info bi INNER JOIN school_profile sp
 -- select statement for view to check accuracy
 SELECT * FROM profile;
 
+DROP VIEW IF EXISTS demo_cost_stats;
+
 -- view for demographic & insta name
 CREATE VIEW demo_cost_stats AS
 SELECT bi.INSTNM, dd.UGDS_MEN, dd.UGDS_WOMEN, ce.TUITIONFEE_IN, ce.TUITIONFEE_OUT

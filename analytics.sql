@@ -23,7 +23,7 @@ BEGIN
     ELSEIF zip != "" THEN
 		SELECT * FROM (SELECT * FROM profile) op WHERE op.ZIP = zip;
     ELSEIF city != "" THEN
-		SELECT * FROM (SELECT * FROM profile) op WHERE CITY = city;
+		SELECT * FROM (SELECT * FROM profile) op WHERE op.CITY = city;
     ELSE 
 		SELECT 'no input' AS msg;
     END IF;
@@ -77,6 +77,22 @@ BEGIN
 SELECT * FROM (SELECT * FROM profile) op
 WHERE op.SAT_AVG_ALL > s_low AND op.SAT_AVG_ALL < s_high 
 AND op.ACTCMMID > a_low AND op.ACTCMMID < a_high;
+
+END//
+
+DELIMITER ;
+
+-- Filtering cost demographics -- 
+DROP PROCEDURE IF EXISTS filter_cost;
+DELIMITER //
+CREATE PROCEDURE filter_cost(IN low INT UNSIGNED,
+IN high INT UNSIGNED, IN lim INT UNSIGNED)
+
+BEGIN
+    
+SELECT * FROM demo_cost_stats d
+WHERE d.TUITIONFEE_OUT > low AND d.TUITIONFEE_OUT < high 
+LIMIT lim;
 
 END//
 
