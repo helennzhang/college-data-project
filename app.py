@@ -19,29 +19,42 @@ class Database:
 
     def query_profile(self, name):
         self.cursor.execute(
-            "SELECT CITY, STABBR, ZIP, UGDS, INSTURL, ADM_RATE_ALL,\
-                ACTCM25, ACTCM75, SAT_AVG_ALL FROM education_mega WHERE INSTNM = %s", (name.upper(),))
+            "SELECT * FROM profile WHERE INSTNM = %s", (name.upper(),))
         row = self.cursor.fetchone()
-        json = {
-            'school_name': name,
-            'city': row[0],
-            'state': row[1],
-            'zip': row[2],
-            'ugds': row[3],
-            'url': row[4],
-            'admit_rate': row[5],
-            'act_25': row[6],
-            'act_75': row[7],
-            'sat_avg': row[8]
-        }
-        if row is not None:
-            return json
-        else:
+        if row is None:
             return None
+        json = {
+            'school_name': row[0],
+            'city': row[1],
+            'state': row[2],
+            'zip': row[3],
+            'ugds': row[4],
+            'url': row[5],
+            'admit_rate': str(row[6]*100) + '%',
+            'act_25': row[7],
+            'act_75': row[8],
+            'sat_avg': row[9]
+        }
+        return json
 
-    def query_2(self):
-        # write some more queries here. yay!
-        return ''
+    def return_results(self, query):
+        self.cursor.execute(query)
+        records = self.cursor.fetchall()
+        result = []
+        for row in records:
+            result.append({
+                'school_name': row[0],
+                'city': row[1],
+                'state': row[2],
+                'zip_code': row[3],
+                'ugds': row[4],
+                'url': row[5],
+                'admit_rate': str(row[6] * 100) + '%',
+                'act_25': row[7],
+                'act_75': row[8],
+                'sat_avg': row[9]
+            })
+        return result[:100]
 
 
 @app.route("/")
@@ -50,47 +63,48 @@ def main():
     return render_template("index.html")
 
 
+@app.route('/score/data', methods=["POST"])
+def get_score_data():
+    data = request.json
+    act_low = data['act_low']
+    act_high = data['act_high']
+    act = data['act']
+    sat_low = data['sat_low']
+    sat_high = data['sat_high']
+    sat = data['sat']
+    both = data['both']
+
+    query = ''
+
+    if (act_low == act_high or sat_low == sat_high):
+        return "Score range cannot be 0", 404
+
+    if act == 1:
+        query = "CALL filter_act(" + act_low + ", " + act_high + ")"
+    elif sat == 1:
+        query = "CALL filter_sat(" + sat_low + ", " + sat_high + ")"
+    else:
+        query = ('CALL filter_test(' + act_low + ", " + act_high + ", " +
+                 sat_low + ", " + sat_high + ")")
+    db = Database()
+    results = db.return_results(query)
+    return jsonify(results)
+
+
 @app.route("/location/data", methods=["POST"])
 def get_data():
     data = request.json
-    city = data['city']
-    state = data['state']
-    zip_code = data['zip']
+    city = '"' + data['city'] + '"'
+    state = '"' + data['state'] + '"'
+    zip_code = '"' + data['zip'] + '"'
     if (city == '' and state == '' and zip_code == ''):
         return "No input", 404
 
-    query = ("SELECT INSTNM, CITY, STABBR, ZIP, UGDS, INSTURL, ADM_RATE_ALL,"
-             "ACTCM25, ACTCM75, SAT_AVG_ALL FROM education_mega WHERE ")
-    if city != '':
-        query += "CITY = '" + city + "'"
-    if state != '':
-        if city != '':
-            query += " AND STABBR = '" + state + "'"
-        else:
-            query += "STABBR = '" + state + "'"
-    if zip_code != '':
-        if city != '' or state != '':
-            query += " AND ZIP = " + zip_code
-        else:
-            query += "ZIP = " + zip_code
+    query = "CALL filter_location(" + city + \
+        ", " + state + ", " + zip_code + ")"
 
     db = Database()
-    db.cursor.execute(query)
-    records = db.cursor.fetchall()
-    result = []
-    for row in records:
-        result.append({
-            'school_name': row[0],
-            'city': row[1],
-            'state': row[2],
-            'zip_code': row[3],
-            'ugds': row[4],
-            'url': row[5],
-            'admit_rate': str(row[6]),
-            'act_25': row[7],
-            'act_75': row[8],
-            'sat_avg': row[9]
-        })
+    result = db.return_results(query)
     return jsonify(result)
 
 

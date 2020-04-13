@@ -13,6 +13,14 @@
     <!-- Bootstrap core CSS -->
     <link href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 
+    <!-- jQuery script-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <!-- Custom fonts for this template -->
     <link href="{{url_for('static', filename='vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
     <link href="{{url_for('static', filename='vendor/simple-line-icons/css/simple-line-icons.css')}}" rel="stylesheet"
@@ -22,7 +30,6 @@
 
     <!-- Custom styles for this template -->
     <link href="{{url_for('static', filename='css/landing-page.min.css')}}" rel="stylesheet">
-
 </head>
 
 <body>
@@ -33,3 +40,63 @@
             <a class="navbar-brand" href="/">College Data Visualizer</a>
         </div>
     </nav>
+    <div class='container'>
+        <form id="form">
+            <div class=" form-row">
+                <div class="form-group col-md-5">ACT Range
+                    <div class='row'>
+                        <div class='col-md-5'>
+                            <input id="ACT-low" value='0' type="number" class="form-control" name="ACT-low">
+                        </div>
+                        <div class='col-md-5'>
+                            <input id="ACT-high" value='36' type="number" class="form-control" name="ACT-high">
+                        </div>
+                    </div>
+                </div>
+                <div class='form-group col-md-5'>SAT Range
+                    <div class='row'>
+                        <div class='col-md-5'>
+                            <input id="SAT-low" value='0' type="number" class="form-control" name="SAT-low">
+                        </div>
+                        <div class='col-md-5'>
+                            <input id="SAT-high" value='1600' type="number" class="form-control" name="SAT-high">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-2">Filter By
+                    <select class="custom-select mr-sm-2" id="filter-by">
+                        <option value="SAT">SAT only</option>
+                        <option value="ACT">ACT only</option>
+                        <option value="both">Both ACT and SAT</option>
+                    </select>
+                </div>
+            </div>
+            <div class='form-row justify-content-end'>
+                <div class='col-md-1'>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Results:</h4>
+            </div>
+            <table id="gameTable" class="col-sm-12 table">
+                <thead>
+                    <tr>
+                        <th>School Name</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Zip</th>
+                        <th>Undergrads</th>
+                        <th>Admit Rate</th>
+                        <th>Website</th>
+                    </tr>
+                </thead>
+                <tbody id="college_table"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src='/static/js/score.js'></script>
+
+</body>
