@@ -192,3 +192,28 @@ FOREIGN KEY cost_fk2 (DATA_YEAR)
 REFERENCES years(DATA_YEAR)
 );
 
+--  indexes for faster queries
+CREATE INDEX adm_index ON admission(ADM_RATE_ALL);
+CREATE INDEX sat_index ON sat_stats(SAT_AVG_ALL);
+
+-- returns a view containing a mini overview of all schools
+DROP VIEW profile_stats;
+CREATE VIEW profile_stats AS
+SELECT bi.INSTNM, gd.CITY, gd.STABBR, gd.ZIP, dd.UGDS, sp.NPCURL, a.ADM_RATE_ALL,
+act.ACTCM25, act.ACTCM75, act.ACTCMMID, sat.SAT_AVG_ALL
+FROM basic_info bi INNER JOIN school_profile sp
+	ON bi.UNITID = sp.UNITID
+    INNER JOIN admission a
+    ON bi.UNITID = a.UNITID AND a.DATA_YEAR = '2018'
+    INNER JOIN geographical_data gd
+    ON bi.UNITID = gd.UNITID
+    INNER JOIN demographic_data dd
+	ON bi.UNITID = dd.UNITID AND dd.DATA_YEAR = '2018'
+    INNER JOIN act_stat act  
+    ON bi.UNITID = act.UNITID AND act.DATA_YEAR = '2018'
+    INNER JOIN sat_stats sat 
+    ON bi.UNITID = sat.UNITID AND sat.DATA_YEAR = '2018';
+    
+-- select statement for view to check accuracy
+SELECT * FROM profile_stats;
+
