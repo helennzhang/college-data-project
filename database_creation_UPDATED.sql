@@ -1,3 +1,4 @@
+-- ---------------DATABASE CREATION/TABLES--------------
 DROP DATABASE IF EXISTS US_College;
 CREATE DATABASE US_College;
 
@@ -192,13 +193,13 @@ FOREIGN KEY cost_fk2 (DATA_YEAR)
 REFERENCES years(DATA_YEAR)
 );
 
---  indexes for faster queries
+-- -----------------------INDEXES--------------------------
 CREATE INDEX adm_index ON admission(ADM_RATE_ALL);
 CREATE INDEX sat_index ON sat_stats(SAT_AVG_ALL);
 
+-- --------------------------VIEWS-------------------------
 -- returns a view containing a mini overview of all schools
-DROP VIEW profile_stats;
-CREATE VIEW profile_stats AS
+CREATE VIEW profile AS
 SELECT bi.INSTNM, gd.CITY, gd.STABBR, gd.ZIP, dd.UGDS, sp.INSTURL, a.ADM_RATE_ALL,
 act.ACTCM25, act.ACTCM75, act.ACTCMMID, sat.SAT_AVG_ALL
 FROM basic_info bi INNER JOIN school_profile sp
@@ -215,5 +216,17 @@ FROM basic_info bi INNER JOIN school_profile sp
     ON bi.UNITID = sat.UNITID AND sat.DATA_YEAR = '2018';
     
 -- select statement for view to check accuracy
-SELECT * FROM profile_stats;
+SELECT * FROM profile;
+
+-- view for demographic & insta name
+CREATE VIEW demo_cost_stats AS
+SELECT bi.INSTNM, dd.UGDS_MEN, dd.UGDS_WOMEN, ce.TUITIONFEE_IN, ce.TUITIONFEE_OUT
+FROM basic_info bi 
+    INNER JOIN demographic_data dd
+	ON bi.UNITID = dd.UNITID AND dd.DATA_YEAR = '2018'
+    INNER JOIN cost_earnings ce
+    ON bi.UNITID = ce.UNITID AND ce.DATA_YEAR = '2018';
+
+-- select statement for view to check accuracy
+SELECT * FROM demo_cost_stats;
 
