@@ -199,7 +199,7 @@ CREATE INDEX sat_index ON sat_stats(SAT_AVG_ALL);
 
 -- --------------------------VIEWS-------------------------
 -- returns a view containing a mini overview of all schools
-CREATE VIEW profile_stats AS
+CREATE VIEW profile AS
 SELECT bi.INSTNM, gd.CITY, gd.STABBR, gd.ZIP, dd.UGDS, sp.INSTURL, a.ADM_RATE_ALL,
 act.ACTCM25, act.ACTCM75, act.ACTCMMID, sat.SAT_AVG_ALL
 FROM basic_info bi INNER JOIN school_profile sp
@@ -216,7 +216,7 @@ FROM basic_info bi INNER JOIN school_profile sp
     ON bi.UNITID = sat.UNITID AND sat.DATA_YEAR = '2018';
     
 -- select statement for view to check accuracy
-SELECT * FROM profile_stats;
+SELECT * FROM profile;
 
 -- view for demographic & insta name
 CREATE VIEW demo_cost_stats AS

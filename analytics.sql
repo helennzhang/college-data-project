@@ -5,79 +5,120 @@ DROP PROCEDURE filter_location;
 DELIMITER //
 CREATE PROCEDURE filter_location(IN city TEXT, 
 IN stabbr VARCHAR(2), IN zip VARCHAR(9))
-
 BEGIN 
-
 	IF city != "" AND stabbr != "" AND zip != "" THEN
-		SELECT * FROM profile_stats
-		WHERE CITY = city AND STABBR = stabbr AND ZIP = zip;
+		SELECT * FROM (SELECT * FROM profile) op
+		WHERE op.CITY = city AND op.STABBR = stabbr AND op.ZIP = zip;
     ELSEIF city != "" AND stabbr != "" THEN
-		SELECT * FROM profile_stats
-		WHERE CITY = city AND STABBR = stabbr;
+		SELECT * FROM (SELECT * FROM profile) op
+		WHERE op.CITY = city AND op.STABBR = stabbr;
     ELSEIF city != "" AND zip != "" THEN
-		SELECT * FROM profile_stats
-		WHERE CITY = city AND ZIP = zip;
+		SELECT * FROM (SELECT * FROM profile) op
+		WHERE op.CITY = city AND op.ZIP = zip;
     ELSEIF stabbr != "" AND zip != "" THEN
-		SELECT * FROM profile_stats
-		WHERE STABBR = stabbr AND ZIP = zip;
+		SELECT * FROM (SELECT * FROM profile) op
+		WHERE op.STABBR = stabbr AND op.ZIP = zip;
     ELSEIF stabbr != "" THEN
-		SELECT * FROM profile_stats WHERE STABBR = stabbr;
+		SELECT * FROM (SELECT * FROM profile) op WHERE op.STABBR = stabbr;
     ELSEIF zip != "" THEN
-		SELECT * FROM profile_stats WHERE ZIP = zip;
+		SELECT * FROM (SELECT * FROM profile) op WHERE op.ZIP = zip;
     ELSEIF city != "" THEN
-		SELECT * FROM profile_stats WHERE CITY = city;
+		SELECT * FROM (SELECT * FROM profile) op WHERE CITY = city;
     ELSE 
 		SELECT 'no input' AS msg;
     END IF;
 
 END //
 DELIMITER ;
-    
 
--- filter for schools based on act
-DROP PROCEDURE filter_act;
+DROP PROCEDURE IF EXISTS filter_act;
+
 DELIMITER //
-CREATE PROCEDURE act(IN low TINYINT UNSIGNED,
-IN high TINYINT UNSIGNED, IN two BOOL)
+
+CREATE PROCEDURE filter_act (IN low TINYINT UNSIGNED,
+IN high TINYINT UNSIGNED)
 
 BEGIN
-
-	IF low > high OR low = 0 AND high = 0 THEN 
-    SELECT "ERROR: low value > high" as msg;
-    ELSEIF two = 1 THEN
-    SELECT * FROM profile_stats 
-    WHERE ACTCMMID >= low AND ACTCMMID =< high;
-    ELSEIF high = 0 AND low THEN
-    SELECT * FROM profile_stats
-    WHERE ACTCMMID > low;
-    ELSEIF low = 0
-    SELECT * FROM profile_stats
-    WHERE ACTCMID < high;
-    END IF;
+	
+   SELECT * FROM profile
+    WHERE ACTCMMID > low AND ACTCMMID < high;
     
 END //
+
 DELIMITER ;
 
--- filter for schools based on sat
-DROP PROCEDURE filter_sat;
+
+DROP PROCEDURE IF EXISTS filter_sat;
 DELIMITER //
 CREATE PROCEDURE filter_sat(IN low SMALLINT UNSIGNED,
-IN high SMALLINT UNSIGNED, IN two BOOL)
+IN high SMALLINT UNSIGNED)
 
 BEGIN
 
-	IF low > high THEN 
-    SELECT "ERROR: low value > high" as msg;
-    ELSEIF two = 1 THEN
-    SELECT * FROM profile_stats 
-    WHERE SAT_AVG_ALL >= low AND SAT_AVG_ALL =< high;
-    ELSEIF high = 0 AND low <= high THEN
-    SELECT * FROM profile_stats
-    WHERE SAT_AVG_ALL > low;
-    ELSEIF low = 0
-    SELECT * FROM profile_stats
-    WHERE SAT_AVG_ALL< high;
-    END IF;
+    SELECT * FROM profile 
+    WHERE SAT_AVG_ALL > low AND SAT_AVG_ALL < high;
+
+
+END//
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS filter_sat;
+DELIMITER //
+CREATE PROCEDURE filter_sat(IN low SMALLINT UNSIGNED,
+IN high SMALLINT UNSIGNED)
+
+BEGIN
+
+    SELECT * FROM profile 
+    WHERE SAT_AVG_ALL > low AND SAT_AVG_ALL < high;
+
+
+END//
+
+DELIMITER ;
+
+ROP PROCEDURE IF EXISTS filter_sat;
+DELIMITER //
+CREATE PROCEDURE filter_sat(IN low SMALLINT UNSIGNED,
+IN high SMALLINT UNSIGNED)
+
+BEGIN
+
+    SELECT * FROM profile 
+    WHERE SAT_AVG_ALL > low AND SAT_AVG_ALL < high;
+
+
+END//
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS filter_sat;
+DELIMITER //
+CREATE PROCEDURE filter_sat(IN low SMALLINT UNSIGNED,
+IN high SMALLINT UNSIGNED)
+
+BEGIN
+
+    SELECT * FROM profile 
+    WHERE SAT_AVG_ALL > low AND SAT_AVG_ALL < high;
+
+
+END//
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS filter_test;
+DELIMITER //
+CREATE PROCEDURE filter_test(IN a_low SMALLINT UNSIGNED,
+IN a_high SMALLINT UNSIGNED, IN s_low SMALLINT UNSIGNED,
+IN s_high SMALLINT UNSIGNED)
+
+BEGIN
+    
+SELECT * FROM (SELECT * FROM profile) op
+WHERE op.SAT_AVG_ALL > s_low AND op.SAT_AVG_ALL < s_high 
+AND op.ACTCMMID > a_low AND op.ACTCMMID < a_high;
 
 END//
 
@@ -85,12 +126,15 @@ DELIMITER ;
 
 
 
-    
-    
-    
-    
 
 
 
 
-    
+
+
+
+
+
+
+
+
