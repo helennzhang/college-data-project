@@ -1,7 +1,7 @@
 -- PROCEDURES
 
 -- filter for schools based on location inputs
-DROP PROCEDURE filter_location;
+DROP PROCEDURE IF EXISTS filter_location;
 DELIMITER //
 CREATE PROCEDURE filter_location(IN city TEXT, 
 IN stabbr VARCHAR(2), IN zip VARCHAR(9))

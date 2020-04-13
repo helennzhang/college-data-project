@@ -1,7 +1,7 @@
 -- FILE OR LOADING ALL DATA & INSERTS
 
 -- load into mega table
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2018.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2018.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -11,7 +11,8 @@ WHERE UNITID = 0;
 -- load information data from only most recent 2018
 INSERT INTO basic_info
 SELECT DISTINCT UNITID, INSTNM
-FROM education_mega;
+FROM education_mega
+WHERE UNITID != 16777215;
 
 
 -- load 2018 data into rest of normalized tables
@@ -72,63 +73,11 @@ WHERE UNITID IN (
 SELECT UNITID
 FROM basic_info); 
 
--- insert 2016 table data;
-DELETE FROM education_mega;
-
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2016.csv' 
-INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
-LINES TERMINATED BY '\n';
-
-DELETE FROM education_mega
-WHERE UNITID = 0;
-
-INSERT INTO years 
-VALUE('2016');
-
-INSERT INTO admission
-SELECT UNITID, '2016', ADM_RATE, ADM_RATE_ALL
-FROM education_mega
-WHERE UNITID IN (
-SELECT UNITID
-FROM basic_info); 
-
-INSERT INTO demographic_data
-SELECT UNITID, '2016', UGDS, UGDS_WHITE, UGDS_BLACK, UGDS_HISPANIC,
-UGDS_ASIAN, UGDS_AIAN, UGDS_NHPI, UGDS_2MOR,UGDS_NRA, UGDS_UNKNOWN, UGDS_MEN,
-UGDS_WOMEN, PAR_ED_PCT_1STGEN
-FROM education_mega
-WHERE UNITID IN (
-SELECT UNITID
-FROM basic_info); 
-
-INSERT INTO act_stat
-SELECT UNITID, '2016', ACTCM25, ACTCM75, ACTEN25, ACTEN75, ACTMT25, ACTMT75, ACTWR25,
-ACTWR75, ACTCMMID, ACTENMID, ACTMTMID, ACTWRMID
-FROM education_mega
-WHERE UNITID IN (
-SELECT UNITID
-FROM basic_info); 
-
-INSERT INTO sat_stats
-SELECT UNITID, '2016', SAT_AVG,SAT_AVG_ALL, SATVR25, SATVR75, SATMT25,
-SATMT75, SATWR25, SATWR75, SATVRMID, SATMTMID, SATWRMID
-FROM education_mega
-WHERE UNITID IN (
-SELECT UNITID
-FROM basic_info); 
-
-INSERT INTO cost_earnings
-SELECT UNITID, '2016', COSTT4_A, TUITIONFEE_IN, TUITIONFEE_OUT,
-PCTFLOAN, PCTPELL, DEBT_MDN
-FROM education_mega
-WHERE UNITID IN (
-SELECT UNITID
-FROM basic_info); 
 
 -- insert 2015 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2015.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2015.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -181,7 +130,7 @@ FROM basic_info);
 -- insert 2016 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2016.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2016.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -234,7 +183,7 @@ FROM basic_info);
 -- insert 2014 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2014.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2014.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -287,7 +236,7 @@ FROM basic_info);
 -- insert 2013 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2013.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2013.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -340,7 +289,7 @@ FROM basic_info);
 -- insert 2012 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2012.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2012.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -393,7 +342,7 @@ FROM basic_info);
 -- insert 2011 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2011.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2011.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -446,7 +395,7 @@ FROM basic_info);
 -- insert 2010 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2010.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2010.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -496,10 +445,11 @@ WHERE UNITID IN (
 SELECT UNITID
 FROM basic_info); 
 
+
 -- insert 2009 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2009.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2009.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -551,7 +501,7 @@ FROM basic_info);
 
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2008.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2008.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -604,7 +554,7 @@ FROM basic_info);
 -- insert 2007 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2007.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2007.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -657,7 +607,7 @@ FROM basic_info);
 -- insert 2006 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2006.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2006.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -710,7 +660,7 @@ FROM basic_info);
 -- insert 2005 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2005.csv' 
+LOAD DATA LOCAL INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2005.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -763,7 +713,7 @@ FROM basic_info);
 -- insert 2004 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2004.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2004.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -816,7 +766,7 @@ FROM basic_info);
 -- insert 2003 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2003.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2003.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -869,7 +819,7 @@ FROM basic_info);
 -- insert 2002 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2002.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2002.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -922,7 +872,7 @@ FROM basic_info);
 -- insert 2001 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2001.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2001.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -975,7 +925,7 @@ FROM basic_info);
 -- insert 2000 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N2000.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2000.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -1028,7 +978,7 @@ FROM basic_info);
 -- insert 1999 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N1999.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N1999.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -1081,7 +1031,7 @@ FROM basic_info);
 -- insert 1998 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N1998.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N1998.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -1134,7 +1084,7 @@ FROM basic_info);
 -- insert 1997 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N1997.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N1997.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 
@@ -1187,7 +1137,7 @@ FROM basic_info);
 -- insert 1996 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Downloads/CollegeScorecard_Raw_Data/N1996.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N1996.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 

@@ -1,6 +1,6 @@
 -- ---------------DATABASE CREATION/TABLES--------------
-DROP DATABASE IF EXISTS US_College;
-CREATE DATABASE US_College;
+DROP DATABASE IF EXISTS project2;
+CREATE DATABASE project2;
 
 DROP TABLE IF EXISTS education_mega;
 CREATE TABLE education_mega(
