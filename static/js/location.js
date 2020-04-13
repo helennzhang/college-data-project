@@ -17,6 +17,7 @@ $('#form').submit(function (ev) {
         contentType: 'application/json',
         data: JSON.stringify(formData),
         success: (results) => {
+            $('#college_table').empty();
             results.forEach(college => {
                 $("#college_table").append(`<tr>
             <th>` + college.school_name + `</th>
@@ -25,7 +26,7 @@ $('#form').submit(function (ev) {
             <td>` + college.zip_code + `</td>
             <td>` + college.ugds + `</td>
             <td>` + college.admit_rate + `</td>
-            <td>` + college.url + `</td></tr>`);
+            <td> <a href=https://` + college.url + `>Website</a></td></tr>`);
             })
         },
         error: (err) => { console.log(err) }

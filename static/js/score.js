@@ -21,6 +21,7 @@ $('#form').submit(function (ev) {
         contentType: 'application/json',
         data: JSON.stringify(formData),
         success: (results) => {
+            $('#college_table').empty();
             results.forEach(college => {
                 $("#college_table").append(`<tr>
             <th>` + college.school_name + `</th>

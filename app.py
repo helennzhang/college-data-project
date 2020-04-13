@@ -30,7 +30,7 @@ class Database:
             'zip': row[3],
             'ugds': row[4],
             'url': row[5],
-            'admit_rate': str(row[6]*100) + '%',
+            'admit_rate': str(row[6]*100)[:5] + '%',
             'act_25': row[7],
             'act_75': row[8],
             'sat_avg': row[9]
@@ -49,7 +49,7 @@ class Database:
                 'zip_code': row[3],
                 'ugds': row[4],
                 'url': row[5],
-                'admit_rate': str(row[6] * 100) + '%',
+                'admit_rate': str(row[6] * 100)[:5] + '%',
                 'act_25': row[7],
                 'act_75': row[8],
                 'sat_avg': row[9]
