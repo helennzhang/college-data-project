@@ -31,6 +31,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- filter schools based on act
 DROP PROCEDURE IF EXISTS filter_act;
 
 DELIMITER //
@@ -47,7 +48,7 @@ END //
 
 DELIMITER ;
 
-
+-- filer schools based on sat
 DROP PROCEDURE IF EXISTS filter_sat;
 DELIMITER //
 CREATE PROCEDURE filter_sat(IN low SMALLINT UNSIGNED,
@@ -63,51 +64,8 @@ END//
 
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS filter_sat;
-DELIMITER //
-CREATE PROCEDURE filter_sat(IN low SMALLINT UNSIGNED,
-IN high SMALLINT UNSIGNED)
 
-BEGIN
-
-    SELECT * FROM profile 
-    WHERE SAT_AVG_ALL > low AND SAT_AVG_ALL < high;
-
-
-END//
-
-DELIMITER ;
-
-ROP PROCEDURE IF EXISTS filter_sat;
-DELIMITER //
-CREATE PROCEDURE filter_sat(IN low SMALLINT UNSIGNED,
-IN high SMALLINT UNSIGNED)
-
-BEGIN
-
-    SELECT * FROM profile 
-    WHERE SAT_AVG_ALL > low AND SAT_AVG_ALL < high;
-
-
-END//
-
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS filter_sat;
-DELIMITER //
-CREATE PROCEDURE filter_sat(IN low SMALLINT UNSIGNED,
-IN high SMALLINT UNSIGNED)
-
-BEGIN
-
-    SELECT * FROM profile 
-    WHERE SAT_AVG_ALL > low AND SAT_AVG_ALL < high;
-
-
-END//
-
-DELIMITER ;
-
+-- filter schools based on act & sat
 DROP PROCEDURE IF EXISTS filter_test;
 DELIMITER //
 CREATE PROCEDURE filter_test(IN a_low SMALLINT UNSIGNED,
