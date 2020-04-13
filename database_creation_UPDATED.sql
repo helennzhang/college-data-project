@@ -199,7 +199,7 @@ CREATE INDEX sat_index ON sat_stats(SAT_AVG_ALL);
 -- returns a view containing a mini overview of all schools
 DROP VIEW profile_stats;
 CREATE VIEW profile_stats AS
-SELECT bi.INSTNM, gd.CITY, gd.STABBR, gd.ZIP, dd.UGDS, sp.NPCURL, a.ADM_RATE_ALL,
+SELECT bi.INSTNM, gd.CITY, gd.STABBR, gd.ZIP, dd.UGDS, sp.INSTURL, a.ADM_RATE_ALL,
 act.ACTCM25, act.ACTCM75, act.ACTCMMID, sat.SAT_AVG_ALL
 FROM basic_info bi INNER JOIN school_profile sp
 	ON bi.UNITID = sp.UNITID
