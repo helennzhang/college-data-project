@@ -608,7 +608,7 @@ FROM basic_info);
 -- insert 2005 table data;
 DELETE FROM education_mega;
 
-LOAD DATA LOCAL INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2005.csv' 
+LOAD DATA INFILE '~/Documents/CS\ 3265/college-data-project/CollegeScorecard_Raw_Data/N2005.csv' 
 INTO TABLE education_mega FIELDS TERMINATED BY ',' ENCLOSED BY "" 
 LINES TERMINATED BY '\n';
 

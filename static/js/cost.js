@@ -17,13 +17,12 @@ $("#cost-range").val("$" + $("#cost-slider").slider("values", 0) +
 $('#form').submit(function (ev) {
     ev.preventDefault();
 
-    let formData = {
+    const formData = {
         cost_min: $("#cost-min").val(),
         cost_max: $("#cost-max").val(),
         limit: $("#limit").val(),
     };
 
-    console.log(formData);
 
     $.ajax({
         url: '/cost/data',

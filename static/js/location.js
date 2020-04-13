@@ -3,13 +3,11 @@
 $('#form').submit(function (ev) {
     ev.preventDefault();
 
-    let formData = {
+    const formData = {
         city: $("#city").val(),
         state: $("#state").val(),
         zip: $("#zip").val(),
     };
-
-    console.log(formData);
 
     $.ajax({
         url: '/location/data',
@@ -26,7 +24,7 @@ $('#form').submit(function (ev) {
             <td>` + college.zip_code + `</td>
             <td>` + college.ugds + `</td>
             <td>` + college.admit_rate + `</td>
-            <td> <a href=https://` + college.url + `>Website</a></td></tr>`);
+            <td><a href=https://{{college.url}}>Website</a></td></tr>`);
             })
         },
         error: (err) => { console.log(err) }

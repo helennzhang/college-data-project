@@ -3,7 +3,7 @@
 $('#form').submit(function (ev) {
     ev.preventDefault();
 
-    let formData = {
+    const formData = {
         act_low: $("#ACT-low").val(),
         act_high: $("#ACT-high").val(),
         act: $("#filter-by").val() == 'ACT' ? 1 : 0,
@@ -30,7 +30,7 @@ $('#form').submit(function (ev) {
             <td>` + college.zip_code + `</td>
             <td>` + college.ugds + `</td>
             <td>` + college.admit_rate + `</td>
-            <td>` + college.url + `</td></tr>`);
+            <td><a href=https://{{college.url}}>Website</a></td></tr>`);
             })
         },
         error: (err) => { console.log(err) }

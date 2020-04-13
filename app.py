@@ -63,8 +63,8 @@ class Database:
         for row in records:
             result.append({
                 'school_name': row[0],
-                'men': str(row[1]*100) + '%',
-                'women': str(row[2]*100) + '%',
+                'men': str(row[1]*100)[:5] + '%',
+                'women': str(row[2]*100)[:5] + '%',
                 'tuition_in': '$' + str(row[3]),
                 'tuition_out': '$' + str(row[4])
             })
@@ -90,7 +90,8 @@ def get_score_data():
 
     query = ''
 
-    if (act_low == act_high or sat_low == sat_high):
+    if ((act == 1 and act_low == act_high) or (sat == 1 and sat_low == sat_high)
+            or (both == 1 and (act_low == act_high or sat_low == sat_high))):
         return "Score range cannot be 0", 404
 
     if act == 1:
@@ -100,6 +101,7 @@ def get_score_data():
     else:
         query = ('CALL filter_test(' + act_low + ", " + act_high + ", " +
                  sat_low + ", " + sat_high + ")")
+    print(query)
     db = Database()
     results = db.return_results(query)
     return jsonify(results)

@@ -98,6 +98,11 @@ END//
 
 DELIMITER ;
 
+-- Update Vanderbilt --
+UPDATE profile
+SET INSTURL = 'vanderbilt.edu'
+WHERE INSTNM = "Vanderbilt University";
+
 
 
 
