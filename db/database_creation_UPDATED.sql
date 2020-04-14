@@ -2,6 +2,7 @@
 DROP DATABASE IF EXISTS project2;
 CREATE DATABASE project2;
 
+-- mega table to populate w/ data from each file
 DROP TABLE IF EXISTS education_mega;
 CREATE TABLE education_mega(
 UNITID MEDIUMINT UNSIGNED,
@@ -59,6 +60,7 @@ PAR_ED_PCT_1STGEN FLOAT ,
 DATA_YEAR YEAR
 );
 
+-- primary identification for each institution
 DROP TABLE IF EXISTS basic_info;
 CREATE TABLE basic_info(
 UNITID MEDIUMINT UNSIGNED NOT NULL,
@@ -66,6 +68,7 @@ INSTNM TEXT,
 PRIMARY KEY basic_pk (UNITID)
 );
 
+-- basic info about school: website links & school type
 DROP TABLE IF EXISTS school_profile;
 CREATE TABLE school_profile(
 UNITID MEDIUMINT UNSIGNED NOT NULL,
@@ -77,12 +80,14 @@ FOREIGN KEY geo_fk (UNITID)
 REFERENCES basic_info(UNITID)
 );
 
+-- years of data db contains
 DROP TABLE IF EXISTS years;
 CREATE TABLE years(
 DATA_YEAR YEAR NOT NULL,
 PRIMARY KEY year_pk (DATA_YEAR)
 );
 
+-- admission stats
 DROP TABLE IF EXISTS admission;
 CREATE TABLE admission(
 UNITID MEDIUMINT UNSIGNED NOT NULL,
@@ -96,6 +101,7 @@ FOREIGN KEY adm_fk2 (DATA_YEAR)
 REFERENCES years(DATA_YEAR)
 );
 
+-- addresses of relevant institutions
 DROP TABLE IF EXISTS geographical_data;
 CREATE TABLE geographical_data(
 UNITID MEDIUMINT UNSIGNED NOT NULL,
@@ -107,6 +113,7 @@ FOREIGN KEY geo_fk (UNITID)
 REFERENCES basic_info(UNITID)
 );
 
+-- demographic per year 
 DROP TABLE IF EXISTS demographic_data;
 CREATE TABLE demographic_data(
 UNITID MEDIUMINT UNSIGNED NOT NULL,
@@ -131,6 +138,7 @@ FOREIGN KEY demo_fk2 (DATA_YEAR)
 REFERENCES YEARS(DATA_YEAR)
 );
 
+-- act stats per year
 DROP TABLE IF EXISTS act_stat;
 CREATE TABLE act_stat(
 UNITID MEDIUMINT UNSIGNED NOT NULL,
@@ -154,6 +162,7 @@ FOREIGN KEY act_fk2 (DATA_YEAR)
 REFERENCES years(DATA_YEAR)
 );
 
+-- sat stats per year
 DROP TABLE IF EXISTS sat_stats;
 CREATE TABLE sat_stats(
 UNITID MEDIUMINT UNSIGNED NOT NULL,
@@ -176,6 +185,7 @@ FOREIGN KEY sat_fk2 (DATA_YEAR)
 REFERENCES years(DATA_YEAR)
 );
 
+-- cost of attendance and loans
 DROP TABLE IF EXISTS cost_earnings;
 CREATE TABLE cost_earnings(
 UNITID MEDIUMINT UNSIGNED NOT NULL,
